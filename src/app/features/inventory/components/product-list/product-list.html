@@ -1,0 +1,101 @@
+<div class="page">
+
+  <div class="topbar">
+    <h1 class="page-title">Inventory Management</h1>
+    <div class="search-box">
+      <span>
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </span>
+      <input type="text" placeholder="Search products..." (input)="onSearch($any($event.target).value)" />
+    </div>
+    <button class="btn btn-ghost" (click)="showStockModal = true">Stock In/Out</button>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Add Product</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card green">
+      <div class="stat-label">Total Products</div>
+      <div class="stat-value">{{ stats.total }}</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Inventory Value</div>
+      <div class="stat-value">Rs. {{ stats.value }}</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Low Stock</div>
+      <div class="stat-value">{{ stats.lowStock }}</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">Expiring Soon</div>
+      <div class="stat-value">{{ stats.expiring }}</div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-section">
+    <div class="table-header">
+      <h3>Product List</h3>
+      <div class="filter-tabs">
+        <button [class.active]="activeFilter === 'all'" (click)="setFilter('all')">All</button>
+        <button [class.active]="activeFilter === 'low'" (click)="setFilter('low')">
+          Low Stock <span class="tab-badge" *ngIf="stats.lowStock > 0">{{ stats.lowStock }}</span>
+        </button>
+        <button [class.active]="activeFilter === 'expiry'" (click)="setFilter('expiry')">
+          Expiring <span class="tab-badge" *ngIf="stats.expiring > 0">{{ stats.expiring }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">Loading...</div>
+
+    <div *ngIf="!isLoading && filteredProducts.length === 0" class="empty">
+      No products found
+    </div>
+
+    <table *ngIf="!isLoading && filteredProducts.length > 0">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Purchase Price</th>
+          <th>Sale Price</th>
+          <th>Stock</th>
+          <th>Expiry</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredProducts">
+          <td>
+            <div class="product-name">{{ p.name }}</div>
+            <div class="product-generic" *ngIf="p.generic_name">{{ p.generic_name }}</div>
+          </td>
+          <td><span class="badge badge-cat">{{ p.category }}</span></td>
+          <td>Rs. {{ p.purchase_price }}</td>
+          <td>Rs. {{ p.sale_price }}</td>
+          <td>
+            <span class="badge" [class.badge-ok]="getStockStatus(p) === 'ok'"
+              [class.badge-low]="getStockStatus(p) === 'low'" [class.badge-out]="getStockStatus(p) === 'out'">
+              {{ p.quantity === 0 ? 'OUT' : p.quantity }}
+            </span>
+          </td>
+          <td>{{ p.expiry_date || '—' | date: 'dd-MM-yyyy'}}</td>
+          <td>
+            <div class="actions">
+              <button class="icon-btn" (click)="openEditModal(p)">✏️</button>
+              <button class="icon-btn del" (click)="deleteProduct(p)">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-add-product *ngIf="showAddModal" [product]="selectedProduct" (saved)="onProductSaved($event)"
+    (cancelled)="showAddModal = false">
+  </app-add-product>
+  <app-stock-adjust *ngIf="showStockModal" [allProducts]="products" (updated)="onStockUpdated()"
+    (cancelled)="showStockModal = false">
+  </app-stock-adjust>
+</div>

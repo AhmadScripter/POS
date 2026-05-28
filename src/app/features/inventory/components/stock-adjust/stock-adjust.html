@@ -1,0 +1,77 @@
+<div class="modal-overlay" (click)="cancelled.emit()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3>Stock Adjustment</h3>
+            <button class="close-btn" (click)="cancelled.emit()">✕</button>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+
+                <!-- Stock Info -->
+                <div class="stock-info" *ngIf="selectedProduct">
+                    <div>
+                        <div class="product-name">{{ selectedProduct.name }}</div>
+                        <div class="product-cat">{{ selectedProduct.category }}</div>
+                    </div>
+                    <div class="current-stock">
+                        <div class="stock-num">{{ currentStock }}</div>
+                        <div class="stock-label">Current Stock</div>
+                    </div>
+                </div>
+
+                <!-- IN / OUT Toggle -->
+                <div class="type-toggle">
+                    <button type="button" class="type-btn" [class.active-in]="stockType === 'IN'"
+                        (click)="setType('IN')">Stock IN</button>
+                    <button type="button" class="type-btn" [class.active-out]="stockType === 'OUT'"
+                        (click)="setType('OUT')">Stock OUT</button>
+                </div>
+
+                <!-- Product Select -->
+                <div class="form-group">
+                    <label>Select Product *</label>
+                    <select formControlName="product_id">
+                        <option value="">-- Select Product --</option>
+                        <option *ngFor="let p of allProducts; let i = index" [value]="i">
+                            {{ p.name }} ({{ p.quantity }} in stock)
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Quantity -->
+                <div class="form-group">
+                    <label>Quantity *</label>
+                    <input formControlName="quantity" type="number" min="1" placeholder="Enter quantity" />
+                    <span class="error" *ngIf="form.get('quantity')?.touched && form.get('quantity')?.errors">Valid
+                        quantity required</span>
+                </div>
+
+                <!-- Reason -->
+                <div class="form-group">
+                    <label>Reason</label>
+                    <input formControlName="reason" type="text"
+                        [placeholder]="stockType === 'IN' ? 'e.g. Purchase from supplier' : 'e.g. Sold / Damaged'" />
+                </div>
+
+                <!-- Preview -->
+                <div class="preview-row" *ngIf="selectedProduct && form.get('quantity')?.value">
+                    <span>New Stock will be:</span>
+                    <span class="new-stock" [class.danger]="newStock < 0">{{ newStock < 0 ? 'INVALID' : newStock
+                            }}</span>
+                </div>
+
+                <!-- Error -->
+                <div class="alert-error" *ngIf="errorMsg"><i class="fa-solid fa-triangle-exclamation"></i> {{ errorMsg }}</div>
+
+            </div>
+
+            <div class="modal-foot">
+                <button type="button" class="btn btn-ghost" (click)="cancelled.emit()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Update Stock</button>
+            </div>
+        </form>
+
+    </div>
+</div>

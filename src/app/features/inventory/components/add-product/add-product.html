@@ -1,0 +1,79 @@
+<div class="modal-overlay" (click)="cancelled.emit()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-head">
+      <h3>Add New Product</h3>
+      <button class="close-btn" (click)="cancelled.emit()">✕</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+        <div class="form-grid">
+
+          <div class="form-group full">
+            <label>Product Name *</label>
+            <input formControlName="name" type="text" placeholder="e.g. Panadol 500mg" />
+            <span class="error" *ngIf="f['name'].touched && f['name'].errors?.['required']">Name is required</span>
+          </div>
+
+          <div class="form-group">
+            <label>Generic Name</label>
+            <input formControlName="generic_name" type="text" placeholder="e.g. Paracetamol" />
+          </div>
+
+          <div class="form-group">
+            <label>Category *</label>
+            <select formControlName="category">
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Purchase Price (Rs.) *</label>
+            <input formControlName="purchase_price" type="number" placeholder="0" />
+            <span class="error" *ngIf="f['purchase_price'].touched && f['purchase_price'].errors">Valid price
+              required</span>
+          </div>
+
+          <div class="form-group">
+            <label>Sale Price (Rs.) *</label>
+            <input formControlName="sale_price" type="number" placeholder="0" />
+            <span class="error" *ngIf="f['sale_price'].touched && f['sale_price'].errors">Valid price required</span>
+          </div>
+
+          <div class="form-group">
+            <label>Opening Stock *</label>
+            <input formControlName="quantity" type="number" placeholder="0" />
+          </div>
+
+          <div class="form-group">
+            <label>Min Stock Alert</label>
+            <input formControlName="min_stock_alert" type="number" placeholder="10" />
+          </div>
+
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input formControlName="expiry_date" type="date" />
+          </div>
+
+          <div class="form-group">
+            <label>Batch Number</label>
+            <input formControlName="batch_number" type="text" placeholder="e.g. BN-001" />
+          </div>
+
+          <div class="form-group">
+            <label>Manufacturer</label>
+            <input formControlName="manufacturer" type="text" placeholder="e.g. GSK" />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-ghost" (click)="cancelled.emit()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Product</button>
+      </div>
+    </form>
+
+  </div>
+</div>
