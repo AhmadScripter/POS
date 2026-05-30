@@ -7,5 +7,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/inventory/components/product-list/product-list')
       .then(m => m.ProductList)
+  },
+  {
+    path: 'billing',
+    loadComponent: () =>
+      import('./features/billing/components/billing-pos/billing-pos')
+      .then(m => m.BillingPos)
   }
 ];

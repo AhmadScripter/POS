@@ -9,6 +9,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/products', require('./routes/product.routes'));
+app.use('/api/sales', require('./routes/sale.routes'));
 
 // MongoDB Connect
 mongoose.connect(process.env.MONGO_URI)
