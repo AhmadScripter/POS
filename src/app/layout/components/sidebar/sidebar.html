@@ -1,0 +1,18 @@
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">
+            <i class="fa-solid fa-capsules"></i>
+        </div>
+        <div>
+            <h2>PharmaCo</h2>
+            <span>POS System</span>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <a *ngFor="let item of navItems" [routerLink]="item.route" routerLinkActive="active" class="nav-item">
+            <i [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+        </a>
+    </nav>
+</aside>

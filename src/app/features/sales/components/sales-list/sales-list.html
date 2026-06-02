@@ -1,0 +1,110 @@
+<div class="sales-page">
+
+    <div class="topbar">
+        <h1 class="page-title">Sales History</h1>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card green">
+            <div class="stat-label">Total Sales</div>
+            <div class="stat-value">{{ sales.length }}</div>
+        </div>
+        <div class="stat-card blue">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value">Rs. {{ totalRevenue | number }}</div>
+        </div>
+        <div class="stat-card orange">
+            <div class="stat-label">Today Sales</div>
+            <div class="stat-value">{{ todaySales }}</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-label">Today Revenue</div>
+            <div class="stat-value">Rs. {{ todayRevenue | number }}</div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-section">
+        <div class="table-header">
+            <h3>All Sales</h3>
+        </div>
+
+        <div *ngIf="isLoading" class="loading">Loading...</div>
+
+        <div *ngIf="!isLoading && sales.length === 0" class="empty">
+            No sales found
+        </div>
+
+        <table *ngIf="!isLoading && sales.length > 0">
+            <thead>
+                <tr>
+                    <th>Invoice #</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Subtotal</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sale of sales">
+                    <td><span class="invoice-id">#{{ sale._id?.slice(-6) }}</span></td>
+                    <td>{{ sale.createdAt | date:'dd MMM yyyy, hh:mm a' }}</td>
+                    <td>{{ sale.items.length }} items</td>
+                    <td>Rs. {{ sale.subtotal | number }}</td>
+                    <td><span class="badge badge-discount">{{ sale.discount }}%</span></td>
+                    <td><span class="total-amt">Rs. {{ sale.total | number }}</span></td>
+                    <td><span class="badge" [class.badge-cash]="sale.payment_method === 'cash'"
+                            [class.badge-card]="sale.payment_method === 'card'">{{ sale.payment_method | uppercase
+                            }}</span></td>
+                    <td>
+                        <button class="icon-btn" (click)="viewDetail(sale)"><i class="fa-regular fa-eye"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div class="modal-overlay" *ngIf="selectedSale" (click)="closeDetail()">
+        <div class="modal" (click)="$event.stopPropagation()">
+            <div class="modal-head">
+                <h3>Invoice #{{ selectedSale._id?.slice(-6) }}</h3>
+                <button class="close-btn" (click)="closeDetail()">✕</button>
+            </div>
+            <div class="modal-body">
+                <table class="detail-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of selectedSale.items">
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs. {{ item.sale_price }}</td>
+                            <td>Rs. {{ item.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="detail-totals">
+                    <div class="total-row"><span>Subtotal</span><span>Rs. {{ selectedSale.subtotal }}</span></div>
+                    <div class="total-row"><span>Discount ({{ selectedSale.discount }}%)</span><span>- Rs. {{
+                            selectedSale.subtotal * selectedSale.discount / 100 | number:'1.0-0' }}</span></div>
+                    <div class="total-row grand"><span>Total</span><span>Rs. {{ selectedSale.total }}</span></div>
+                    <div class="total-row"><span>Payment</span><span>{{ selectedSale.payment_method | uppercase
+                            }}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

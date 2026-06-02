@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Product } from '../../../../core/models/product.model';
 import { Sale, SaleItem } from '../../../../core/models/sale.model';
 import { InventoryService } from '../../../inventory/services/inventory-service';
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './billing-pos.html',
   styleUrl: './billing-pos.css',
 })
-export class BillingPos {
+export class BillingPos implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   searchQuery = '';
@@ -40,6 +40,7 @@ export class BillingPos {
       next: (res) => {
         this.products = res.data.filter(p => p.quantity > 0);
         this.filteredProducts = [...this.products];
+        this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });
