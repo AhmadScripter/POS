@@ -1,0 +1,170 @@
+.reports-page {
+    background: #0a0c10;
+    min-height: 100vh;
+    color: #e8eaf0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    padding: 16px 28px;
+    background: #111318;
+    border-bottom: 1px solid #1e2430;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 24px 28px;
+}
+
+.stat-card {
+    background: #111318;
+    border: 1px solid #1e2430;
+    border-radius: 12px;
+    padding: 18px 20px;
+    border-top: 2px solid #1e2430;
+}
+
+.stat-card.green {
+    border-top-color: #00e5a0;
+}
+
+.stat-card.blue {
+    border-top-color: #0088ff;
+}
+
+.stat-card.orange {
+    border-top-color: #ff6b35;
+}
+
+.stat-card.red {
+    border-top-color: #ff3b5c;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.top-product {
+    font-size: 16px;
+}
+
+.table-section {
+    margin: 0 28px 28px;
+    background: #111318;
+    border: 1px solid #1e2430;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #1e2430;
+}
+
+.table-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    flex: 1;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 4px;
+    background: #181c24;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.filter-tabs button {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #6b7280;
+    border: none;
+    background: none;
+}
+
+.filter-tabs button.active {
+    background: #111318;
+    color: #e8eaf0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background: #181c24;
+    padding: 10px 20px;
+    font-size: 11px;
+    color: #6b7280;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #1e2430;
+}
+
+tbody tr {
+    border-bottom: 1px solid #1e2430;
+    transition: background 0.1s;
+}
+
+tbody tr:hover {
+    background: #181c24;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    padding: 13px 20px;
+    font-size: 13.5px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.badge-sales {
+    background: rgba(0, 136, 255, 0.1);
+    color: #0088ff;
+    border: 1px solid rgba(0, 136, 255, 0.2);
+}
+
+.revenue {
+    font-weight: 700;
+    color: #00e5a0;
+}
+
+.empty {
+    text-align: center;
+    padding: 48px;
+    color: #6b7280;
+}

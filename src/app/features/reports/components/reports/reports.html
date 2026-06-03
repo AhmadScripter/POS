@@ -1,0 +1,77 @@
+<div class="reports-page">
+
+    <div class="topbar">
+        <h1 class="page-title">Reports</h1>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card green">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value">Rs. {{ totalRevenue | number }}</div>
+        </div>
+        <div class="stat-card blue">
+            <div class="stat-label">Total Sales</div>
+            <div class="stat-value">{{ totalSales }}</div>
+        </div>
+        <div class="stat-card orange">
+            <div class="stat-label">Avg Sale Value</div>
+            <div class="stat-value">Rs. {{ avgSaleValue | number }}</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-label">Top Product</div>
+            <div class="stat-value top-product">{{ topProduct }}</div>
+        </div>
+    </div>
+
+    <div class="table-section">
+        <div class="table-header">
+            <h3>Sales Report</h3>
+            <div class="filter-tabs">
+                <button [class.active]="activeTab === 'daily'" (click)="activeTab = 'daily'">Daily</button>
+                <button [class.active]="activeTab === 'monthly'" (click)="activeTab = 'monthly'">Monthly</button>
+            </div>
+        </div>
+
+        <table *ngIf="activeTab === 'daily'">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Total Sales</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of dailyData">
+                    <td>{{ row.date }}</td>
+                    <td><span class="badge badge-sales">{{ row.sales }} sales</span></td>
+                    <td><span class="revenue">Rs. {{ row.revenue | number }}</span></td>
+                </tr>
+                <tr *ngIf="dailyData.length === 0">
+                    <td colspan="3" class="empty">No data found</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table *ngIf="activeTab === 'monthly'">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Total Sales</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of monthlyData">
+                    <td>{{ row.month }}</td>
+                    <td><span class="badge badge-sales">{{ row.sales }} sales</span></td>
+                    <td><span class="revenue">Rs. {{ row.revenue | number }}</span></td>
+                </tr>
+                <tr *ngIf="monthlyData.length === 0">
+                    <td colspan="3" class="empty">No data found</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
